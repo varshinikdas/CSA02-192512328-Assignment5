@@ -1,0 +1,34 @@
+TASK A1 – FUNCTION DECOMPOSITION AND INTERFACES
+
+Structure chart (text form)
+main
+├── load_data
+│   ├── load_donors
+│   └── load_stock
+├── register_donor
+│   ├── validate_donor
+│   └── append_donor
+├── find_eligible_donors
+│   └── is_eligible
+├── update_stock
+├── issue_units
+├── save_data
+│   ├── save_donors_text
+│   └── save_stock_binary
+└── print_report
+
+Proposed prototypes and parameter decisions
+int register_donor(DonorList *list, const Donor *candidate);  // list modified; candidate read-only
+int is_eligible(const Donor *donor, int today_yyyymmdd);       // donor read-only; scalar by value
+size_t find_eligible_donors(const Donor *donors, size_t count, const char *group, int today, int *youngest_id); // arrays read-only, output by pointer
+int update_stock(Stock stock[], size_t count, const char *group, int delta); // stock modified
+int save_donors_text(const char *path, const Donor *donors, size_t count); // inputs read-only
+int load_donors_text(const char *path, DonorList *list); // list modified
+int save_stock_binary(const char *path, const Stock *stock, size_t count);
+int load_stock_binary(const char *path, Stock *stock, size_t capacity, size_t *loaded);
+
+Pointer parameters are used for large structures/arrays and for outputs or modifications. const is used whenever a function must not modify the pointed-to data. Small scalar values are passed by value.
+
+Return multiple values – alternative 1: size_t find_eligible(..., int *youngest_id); return count and write youngest ID through output pointer. Alternative 2: EligibleResult find_eligible(...); where EligibleResult contains size_t count and int youngest_id. Both are O(n) time and O(1) auxiliary space. Pointer output is compact but permits null/aliasing mistakes; a structure groups related results and is easier to extend.
+
+Global-variable alternative: donor list, stock and date could be global. Asymptotic time and storage are unchanged, but functions become tightly coupled, harder to test independently, less reusable and unsafe when multiple bank instances are needed.
