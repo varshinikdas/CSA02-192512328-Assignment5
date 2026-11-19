@@ -8,3 +8,4 @@ Memory errors:
 - Leak: overwrite list.data with realloc result directly; if realloc fails old allocation is lost. Use temporary pointer and free list.data at shutdown.
 - Dangling pointer: retain pointer to an element after realloc moves the block. Recompute element addresses after growth.
 - Double free: free list.data in two cleanup paths. Set pointer NULL after free and centralize ownership/cleanup.
+
