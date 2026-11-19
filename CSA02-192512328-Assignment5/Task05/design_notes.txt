@@ -1,9 +1,0 @@
-TASK A5 – FILE STORAGE DESIGN
-
-Donor text file: one donor per line using fprintf with fields separated by a delimiter; easier to inspect, edit and migrate. Validate input fields and escape/reject delimiters/newlines in names. Check fprintf and fclose results.
-Stock binary file: fixed-size Stock records written with fwrite; compact and fast for fixed-layout records. Binary representation may depend on compiler, padding, integer size and endianness, so it is not inherently portable across machines or program versions.
-
-In-place binary update pseudocode:
-OPEN stock file "r+b"; compute offset = index * sizeof(Stock); fseek(fp, offset, SEEK_SET); fread one Stock; validate read; change units; fseek(fp, -(long)sizeof(Stock), SEEK_CUR); fwrite one Stock; check each operation and fclose.
-
-Text alternative: read records, modify target, write all records to temporary text file, then atomically replace original where supported. Per update O(n) record processing versus O(1) record access for fixed-size binary records (ignoring storage I/O costs). Text files are usually larger due to decimal formatting and delimiters; binary records are compact but less portable and less human-readable.
