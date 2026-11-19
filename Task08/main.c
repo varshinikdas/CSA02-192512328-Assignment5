@@ -24,3 +24,4 @@ int main(void) {
     puts("Record 9 fails because it is outside the five-record file; failed read prevents write.");
     return 0;
 }
+
