@@ -7,3 +7,4 @@ In-place binary update pseudocode:
 OPEN stock file "r+b"; compute offset = index * sizeof(Stock); fseek(fp, offset, SEEK_SET); fread one Stock; validate read; change units; fseek(fp, -(long)sizeof(Stock), SEEK_CUR); fwrite one Stock; check each operation and fclose.
 
 Text alternative: read records, modify target, write all records to temporary text file, then atomically replace original where supported. Per update O(n) record processing versus O(1) record access for fixed-size binary records (ignoring storage I/O costs). Text files are usually larger due to decimal formatting and delimiters; binary records are compact but less portable and less human-readable.
+
