@@ -15,3 +15,4 @@ int *lowest_stock(int *stock, size_t n) scans and returns &stock[min_index], or 
 CLI design: bloodbank find O+; bloodbank issue A- 2; bloodbank register <id> <name> <group>. Validate argc before accessing argv, validate command and blood-group strings, parse numeric arguments with strtol and check errors/ranges, print usage and return nonzero on invalid input.
 
 Index alternative: int idx=lowest_stock_index(stock,n); if(idx>=0) stock[idx] += amount. Both scans O(n) time/O(1) space. An index remains a numeric position but can become stale after insertion/reordering; a pointer becomes invalid if storage is reallocated. Recompute after any movement/reallocation.
+
